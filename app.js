@@ -3,7 +3,7 @@ const express = require('express');// подключаем express
 const config = require('config');// подключаем config
 const path = require('path');
 const mongoose = require('mongoose');// подключаем mongoose
-
+const port = process.env.PORT || 8080;
 const app = express(); //наш сервер
 app.use(express.json({extended:true}));//приводим body к формату json
 app.use('/api/auth', require('./routes/auth.routes'));//подключаем auth.routes
@@ -29,7 +29,7 @@ const start = async()=> {
            useUnifiedTopology:true,
            useCreateIndex:true
        });
-        app.listen((process.env.PORT || PORT), ()=> console.log(`app has been create on port ${PORT}`));
+        app.listen(port, ()=> console.log(`app has been create on port ${PORT}`));
     }catch(e){
         console.log('server error', e.message);
         process.exit(1)//останавливаем процесс при возникновении ошибке

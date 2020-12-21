@@ -29,7 +29,7 @@ const start = async()=> {
            useUnifiedTopology:true,
            useCreateIndex:true
        });
-        app.listen(process.env.PORT||PORT, ()=> console.log(`app has been create on port ${PORT}`));
+        app.listen((process.env.PORT || PORT), ()=> console.log(`app has been create on port ${PORT}`));
     }catch(e){
         console.log('server error', e.message);
         process.exit(1)//останавливаем процесс при возникновении ошибке

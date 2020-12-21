@@ -1,6 +1,6 @@
 {
-  "port": 80,
+  "port": 5000,
   "jwtSecret": "qwert",
   "mongoUri": "mongodb+srv://Anastasiya:12345qwert@cluster0.nrasj.mongodb.net/app?retryWrites=true&w=majority",
-  "baseUrl": "  https://lit-falls-84790.herokuapp.com"
+  "baseUrl": "https://lit-falls-84790.herokuapp.com"
 }

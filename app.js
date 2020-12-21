@@ -29,6 +29,9 @@ const start = async()=> {
            useUnifiedTopology:true,
            useCreateIndex:true
        });
+       mongoose.connection.on('connected', ()=> {
+           console.log('mongoose is connected!!!')
+       });
         app.listen((process.env.PORT || PORT), ()=> console.log(`app has been create on port ${PORT}`));
     }catch(e){
         console.log('server error', e.message);

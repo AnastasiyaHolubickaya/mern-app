@@ -20,7 +20,7 @@ if(process.env.NODE_ENV === 'production'){
 }
 
 
-//const PORT = config.get('port') || 5000;// получаем  переменную 'port' из файла default.json
+const PORT = config.get('port') || 5000;// получаем  переменную 'port' из файла default.json
 const start = async()=> {
     try {
        await mongoose.connect(config.get('mongoUri'),{

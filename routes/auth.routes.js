@@ -4,10 +4,10 @@ const config = require('config');// подключаем config
 const jwt = require('jsonwebtoken');//подключаем модуль для авторизации пользователя (для SPA)
 const {check, validationResult} = require('express-validator');// импортируем  метод check и функцию validationResult
 const User = require('../models/User'); // подключаем модель Users
-const router = Router();//  присваиваем переменной
+const router = Router();//  создаем router
 
 // создаем endpoint
-// конкатенируется с уже имеющимся путем - /api/auth/register
+// конкатенируется с уже имеющимся путем - /api/auth/
 router.post('/register',
     //делаем валидацию полей формы
     [
@@ -16,8 +16,9 @@ router.post('/register',
     ],
     async (request, response)=>{
         try {
-            console.log('body',request.body);
-            const error = validationResult(request);//ловим ошибки валидации
+            //console.log('body',request.body);
+            //ловим ошибки валидации
+            const error = validationResult(request);
             // если ошибки есть возвращаем на frontend статус 400 (останавливаем дальнейшее выполнение скрипта)
             if (!error.isEmpty()){
                 return   response.status(400).json({
@@ -27,7 +28,7 @@ router.post('/register',
             const {email, password} = request.body;// получаем данные из запроса на регистрацию (отправляются из frontend)
 
             //проверяем существует ли пользователь с аким email
-            const candidate = await  User.findOne({email: email});
+            const candidate = await  User.findOne({email: email});// ищем чела по email
 
             //если что-то есть в candidate
             if (candidate){
@@ -39,7 +40,7 @@ router.post('/register',
             const user = new User({email, password: hashedPassword});//создаем нового пользователя
             await user.save();// ждем когда он сохранится
 
-            //отправляем ответ с кодом 201 - пользователь создан
+            //отправляем ответ frontend-у с кодом 201 - пользователь создан
             response.status(201).json({message: 'пользователь создан'})
 
         } catch (e) {
@@ -69,17 +70,17 @@ router.post('/login',
             return   response.status(400).json({message: 'пользователz с таким email не существует'});
         }
         //проверку прошли пользователь найден, проверяем совпадение паролей
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, user.password);//compare() позволяет сравнивать хешированные пароли
         if(!isMatch) {
             return   response.status(400).json({message: 'неверный пароль'});
         }
-        //авторизация потзователя
+        //авторизация пользователя через jwt token
         const token = jwt.sign(
             {userId: user.id},
             config.get('jwtSecret'),
-            {expiresIn: '2h'}
+            {expiresIn: '2h'}// через сколько данный токен закончит свое существование
         );
-        response.json({token, userId:user.id});
+        response.json({token, userId:user.id});//по умолчания статус 200
     } catch (e) {
         response.status(500).json({message: 'что-то пошло не так'})//  обработка общей ошибки сервера
     }

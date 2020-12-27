@@ -14,7 +14,7 @@ router.post('/create', auth,
         try {
             const baseUrl = config.get('baseUrl');
             const{from} = request.body;//из тела запроса брем параметр from
-            const code = shortId.generate();// генерируем параметр code
+            const code = shortId.generate();// генерируем параметр code для сокращения ссылки
             const existing = await  Link.findOne({from});// проверяем есть ли в бд такой from
             if(existing){
                 return response.json({link:existing})//если есть отправляем найденную ссылку

@@ -7,15 +7,15 @@ const mongoose = require('mongoose');// подключаем mongoose
 const app = express(); //наш сервер
 
 //регистрируем routs ( endpoints)
-app.use(express.json({extended:true}));//приводим body к формату json
+app.use(express.json({extended:true}));//для того, чтоб node корректно отображал  body
 app.use('/api/auth', require('./routes/auth.routes'));//подключаем auth.routes (регистрация и авторизация)
 app.use('/api/link', require('./routes/link.routes'));//подключаем link.routes
 app.use('/t', require('./routes/redirect.routes'));//подключаем redirect.routes
 
-//чтоб одновременно работал frontend and backend
+//чтоб  backend запускал  и frontend (node.js отвечает за обновременную работу front and back)
 if(process.env.NODE_ENV === 'production'){
     app.use('/', express.static(path.join(__dirname, 'client', 'build')));
-
+    // на любые другие запросы отправляем файл index.html
     app.get('*',(request, response) => {
         response.sendFile(path.resolve(__dirname,'client', 'build','index.html'))
     })

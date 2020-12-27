@@ -1,7 +1,8 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');// библиотека для раскодировки token
 const config = require('config');
 
 module.exports = (request, response,next) =>{
+    // делаем базовую проверку
     if(request.method === "OPTIONS"){// если пришел запрос OPTIONS
         return next()// ничего не делаем продолжаем выполнение запроса
     }
@@ -13,10 +14,10 @@ module.exports = (request, response,next) =>{
         }
         //раскодирываем token
         const decoder = jwt.verify(token,config.get('jwtSecret'));
-       request.user = decoder;
+       request.user = decoder;//в объекте request создаем поле user и кладем в него раскодированный token
        next();
     } catch (e) {
-        console.log(e.message);
+        //console.log(e.message);
         return   response.status(401).json({message: 'file auth.middleeware'})
     }
 };

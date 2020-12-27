@@ -1,4 +1,4 @@
-//  переход по ссылке типа link: http://localhost:5000/t/m4DHTekoV
+//  переход по сокращенной  ссылке типа link: http://localhost:5000/t/m4DHTekoV
 
 const {Router} = require('express');// импортируем express, достаем из него Router
 const Link = require('../models/Link'); // подключаем модель Users
